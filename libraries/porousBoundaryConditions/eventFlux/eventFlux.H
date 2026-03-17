@@ -143,18 +143,12 @@ public:
             const fvPatchFieldMapper&
         );
 
-        //- Construct as copy
-        eventFlux
-        (
-            const eventFlux&
-        );
-
         //- Construct and return a clone
         virtual tmp<fvPatchScalarField> clone() const
         {
-            return tmp<fvPatchScalarField >
+            return tmp<fvPatchScalarField>
             (
-                new eventFlux(*this)
+                new eventFlux(*this, this->internalField())
             );
         }
 

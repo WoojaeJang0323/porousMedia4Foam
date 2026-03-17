@@ -7,19 +7,19 @@
       + fvm::Sp(laminarTransport.nu()*invK,U)
       + fvm::Sp(laminarTransport.nu()*HeleShawCorrection,U)
      ==
-        fvOptions(U)
+        fvModels.source(U)
     );
     fvVectorMatrix& UEqn = tUEqn.ref();
 
 
     UEqn.relax();
 
-    fvOptions.constrain(UEqn);
+    fvConstraints.constrain(UEqn);
 
 
     if (simple.momentumPredictor())
     {
         solve(UEqn == -fvc::grad(p));
 
-        fvOptions.correct(U);
+        fvConstraints.constrain(U);
     }

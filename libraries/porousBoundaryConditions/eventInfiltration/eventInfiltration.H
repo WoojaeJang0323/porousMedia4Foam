@@ -129,18 +129,12 @@ public:
             const fvPatchFieldMapper&
         );
 
-        //- Construct as copy
-        eventInfiltration
-        (
-            const eventInfiltration&
-        );
-
         //- Construct and return a clone
         virtual tmp<fvPatchVectorField> clone() const
         {
-            return tmp<fvPatchVectorField >
+            return tmp<fvPatchVectorField>
             (
-                new eventInfiltration(*this)
+                new eventInfiltration(*this, this->internalField())
             );
         }
 

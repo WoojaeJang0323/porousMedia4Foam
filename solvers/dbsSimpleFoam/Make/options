@@ -13,10 +13,11 @@ EXE_INC = \
 EXE_LIBS = \
     -lmomentumTransportModels \
     -lincompressibleMomentumTransportModels \
-    -lincompressibleTransportModels \
+    -ltransportModels \
     -lfiniteVolume \
     -lmeshTools \
-    -lfvOptions \
+    -lfvModels \
+    -lfvConstraints \
     -lsampling \
     -L$(FOAM_USER_LIBBIN) \
     -lporousModels  \

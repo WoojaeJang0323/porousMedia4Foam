@@ -33,7 +33,8 @@ Description
 #include "fvCFD.H"
 #include "singlePhaseTransportModel.H"
 #include "simpleControl.H"
-#include "fvOptions.H"
+#include "fvModels.H"
+#include "fvConstraints.H"
 #include "porousModel.H"
 #include "HeleShaw.H"
 

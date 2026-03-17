@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "improvedVolumeOfSolid.H"
+#include "ImprovedVolumeOfSolid.H"
 #include "addToRunTimeSelectionTable.H"
 #include "fvcGrad.H"
 

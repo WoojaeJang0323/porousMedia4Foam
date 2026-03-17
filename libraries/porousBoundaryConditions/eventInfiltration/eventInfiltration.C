@@ -138,19 +138,6 @@ eventInfiltration
 Foam::eventInfiltration::
 eventInfiltration
 (
-    const eventInfiltration& ptf
-)
-:
-    fixedValueFvPatchVectorField(ptf),
-    fixedInfiltrationValue_(ptf.fixedInfiltrationValue_),
-    patchEventID_(-1),
-    eventFile_()
-{}
-
-
-Foam::eventInfiltration::
-eventInfiltration
-(
     const eventInfiltration& ptf,
     const DimensionedField<vector, volMesh>& iF
 )
