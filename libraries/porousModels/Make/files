@@ -65,6 +65,7 @@ geochemicalModels/basicGeochemicalModel/basicGeochemicalModelNew.C
 geochemicalModels/flowOnly/flowOnly.C
 geochemicalModels/simpleFirstOrderKinetic/simpleFirstOrderKinetic.C
 geochemicalModels/simpleFirstOrderKineticMole/simpleFirstOrderKineticMole.C
+geochemicalModels/mixingPrecipitation/mixingPrecipitation.C
 geochemicalModels/transportOnly/transportOnly.C
 geochemicalModels/phreeqcRM/phreeqcRM.C
 
