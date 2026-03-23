@@ -73,24 +73,9 @@ Foam::geochemicalModels::mixingPrecipitation::mixingPrecipitation
     speciesBName_
     (
         mixingPrecipitationDict_.lookupOrDefault<word>("speciesB", "C_B")
-    ),
-    As_
-    (
-        IOobject
-        (
-            "As",
-            mesh_.time().timeName(),
-            mesh_,
-            IOobject::MUST_READ,
-            IOobject::NO_WRITE
-        ),
-        mesh_
     )
 {
     Info << "Initialization of mixingPrecipitation model ...." << nl;
-
-    Info << "  As       : min = " << min(As_).value()
-         << ", max = " << max(As_).value() << nl;
 
     Y_.resize(2);
 
@@ -179,8 +164,9 @@ void Foam::geochemicalModels::mixingPrecipitation::updateFluidComposition()
 
     // Effective volumetric rate = k * As [1/s]
     // k [m/s] (intrinsic rate constant, numerically mol/m^2/s)
-    // As [1/m] (specific surface area = S_react / V_cell)
-    volScalarField kAs("kAs", k_ * As_);
+    // As [1/m] (specific surface area from surfaceAreaModel framework)
+    const volScalarField As(porousMedia_[0].surfaceArea());
+    volScalarField kAs("kAs", k_ * As);
 
     // Saturation ratio: sigma = C_A * C_B / Ksp
     volScalarField sigma
@@ -223,8 +209,7 @@ void Foam::geochemicalModels::mixingPrecipitation::updateFluidComposition()
     sigma = C_A * C_B / Ksp_;
     mask = pos(sigma - dimensionedScalar("one", dimless, 1.0));
 
-    // Recompute kAs (As_ is constant, but kept for clarity)
-    kAs = k_ * As_;
+    kAs = k_ * As;
 
     {
         fvScalarMatrix CBEqn
@@ -247,7 +232,8 @@ void Foam::geochemicalModels::mixingPrecipitation::updateMineralDistribution()
     volScalarField& C_B = Y_[1];
 
     // Effective volumetric rate = k * As [1/s]
-    volScalarField kAs("kAs", k_ * As_);
+    const volScalarField As(porousMedia_[0].surfaceArea());
+    volScalarField kAs("kAs", k_ * As);
 
     // Rate of precipitation (only when supersaturated)
     // R_vol = k * As * max(sigma - 1, 0)  [1/s]
