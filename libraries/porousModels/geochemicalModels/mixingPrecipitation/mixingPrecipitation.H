@@ -48,9 +48,9 @@ Description
         speciesA - name of species A field (default: "C_A")
         speciesB - name of species B field (default: "C_B")
 
-    Field required in the time directory:
-        As - specific surface area [m^2/m^3], set via setFields for
-             spatially varying reactive surface area
+    The reactive surface area is obtained from the surfaceAreaModel
+    framework (via porousMedia_[0].surfaceArea()), allowing dynamic
+    evolution when a suitable surfaceAreaModel is selected.
 
 SourceFiles
     mixingPrecipitation.C
@@ -95,9 +95,6 @@ class mixingPrecipitation : public basicGeochemicalModel
 
     word speciesAName_;
     word speciesBName_;
-
-    //- Specific surface area field [m^2/m^3] = [1/m]
-    volScalarField As_;
 
   // Private Member Functions
 
