@@ -45,7 +45,15 @@ geochemicalProperties
     {
         rhos rhos [1 -3 0 0 0 0 0] 4480;
         Vm   Vm   [0 0 0 0 0 0 0] 5.21e-5;   // molar volume (dimless, m3/mol equivalent)
+<<<<<<< HEAD
         surfaceAreaModel none;
+=======
+        surfaceAreaModel constantSurfaceArea;
+        constantSurfaceAreaCoeffs
+        {
+            A0 A0 [0 -1 0 0 0 0 0] 58752;
+        }
+>>>>>>> e887646 (Add DBS fracture-matrix precipitation case (pm4f_dbs))
     }
 
     mixingPrecipitation
