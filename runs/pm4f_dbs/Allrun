@@ -1,0 +1,37 @@
+#!/bin/sh
+cd "${0%/*}" || exit 1
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# ---- 1. Clean previous results ----
+./clean
+
+# ---- 2. Restore .orig files to 0/ and remove stale fields ----
+for f in 0/*.orig; do
+    cp "$f" "${f%.orig}"
+done
+rm -f 0/cellLevel 0/pointLevel 0/cellToRegion
+
+# ---- 3. Generate background mesh ----
+runApplication blockMesh
+
+# ---- 4. Identify matrix + fracture cells, remove barrier cells ----
+runApplication topoSet
+subsetMesh simulatedDomain -overwrite > log.subsetMesh 2>&1
+
+# ---- 4b. Convert exposed internal faces from internal to wall ----
+# Fix mesh boundary type
+sed -i '/oldInternalFaces/,/}/{s/type            internal;/type            wall;/}' constant/polyMesh/boundary
+# Fix field files: change internal BC to zeroGradient
+for f in 0/U 0/p 0/eps 0/K 0/K0 0/inertMineral 0/C_Ba 0/C_SO4 0/Ys.Mineral 0/As; do
+    [ -f "$f" ] && sed -i '/oldInternalFaces/,/}/{s/type            internal;/type            zeroGradient;/}' "$f"
+done
+
+# ---- 5. Set zone-specific fields (matrix default + fracture override) ----
+runApplication setFields
+
+# ---- 6. Decompose and run in parallel ----
+runApplication decomposePar
+runParallel dbsFoam
+
+# ---- 7. Reconstruct for post-processing ----
+runApplication reconstructPar

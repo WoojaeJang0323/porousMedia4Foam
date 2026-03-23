@@ -1,0 +1,51 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+    // Start with all cells
+    {
+        name    simulatedDomain;
+        type    cellSet;
+        action  new;
+        source  boxToCell;
+        sourceInfo
+        {
+            box (-1 -1 -1) (1 1 1);
+        }
+    }
+
+    // Remove barrier cells (inside barrier_scaled.stl)
+    {
+        name    simulatedDomain;
+        type    cellSet;
+        action  delete;
+        source  surfaceToCell;
+        sourceInfo
+        {
+            file            "constant/triSurface/barrier_scaled.stl";
+            outsidePoints   ((1e-6 1e-6 11.5e-6));
+            includeCut      false;
+            includeInside   true;
+            includeOutside  false;
+            useSurfaceOrientation true;
+            nearDistance     -1;
+            curvature       -100;
+        }
+    }
+);
+
+// ************************************************************************* //

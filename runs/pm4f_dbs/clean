@@ -1,0 +1,7 @@
+#!/bin/sh
+
+. $WM_PROJECT_DIR/bin/tools/CleanFunctions
+
+foamListTimes -rm -noZero
+rm -f log.*
+rm -rf constant/polyMesh

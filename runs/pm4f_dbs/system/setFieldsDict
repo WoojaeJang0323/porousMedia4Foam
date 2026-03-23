@@ -1,0 +1,52 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Default: matrix properties (all remaining cells after subsetMesh are matrix or fracture)
+defaultFieldValues
+(
+    volScalarFieldValue eps          0.375
+    volScalarFieldValue K            4.48e-12
+    volScalarFieldValue K0           4.48e-12
+    volScalarFieldValue inertMineral 0.625
+    volScalarFieldValue As           58752
+);
+
+regions
+(
+    // Fracture zone: override with fracture properties
+    surfaceToCell
+    {
+        file            "constant/triSurface/fracture_scaled.stl";
+        outsidePoints   ((1e-6 1e-6 11.5e-6));
+        includeCut      false;
+        includeInside   true;
+        includeOutside  false;
+        useSurfaceOrientation true;
+        nearDistance     -1;
+        curvature       -100;
+
+        fieldValues
+        (
+            volScalarFieldValue eps          0.99
+            volScalarFieldValue K            3.37e-11
+            volScalarFieldValue K0           3.37e-11
+            volScalarFieldValue inertMineral 0.0
+            volScalarFieldValue As           86957
+        );
+    }
+);
+
+// ************************************************************************* //
