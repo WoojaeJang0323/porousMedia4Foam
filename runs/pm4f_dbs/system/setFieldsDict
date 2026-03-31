@@ -40,9 +40,7 @@ regions
 
         fieldValues
         (
-            volScalarFieldValue eps          0.99999
-            volScalarFieldValue K            3.37e-11
-            volScalarFieldValue K0           3.37e-11
+            volScalarFieldValue eps          1.0
             volScalarFieldValue inertMineral 0.0
             volScalarFieldValue As           86957
         );
